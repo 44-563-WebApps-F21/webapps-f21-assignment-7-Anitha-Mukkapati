@@ -15,7 +15,7 @@
         crossorigin="anonymous"></script>
     <style>
         header {
-            color:slateblue;
+            color: slateblue;
             font-family: 'Times New Roman', Times, serif;
             font-size: xx-large;
             text-shadow: 2px 2px 4px #000000;
@@ -52,6 +52,8 @@
     <p>Click On the <b>squares</b> to search for wild life</p>
     <p id="tries">Number of tries is zero.</p>
     <p id="distance">Distance is unknown.</p>
+    <br>
+    <button onclick="newGame()">Reset</button>
     <div class="container">
         <div class="row">
             <div class="column"><img src="tree.jpg" width=100 hight=100 id="image1" onclick="check(0);"></div>
@@ -88,59 +90,71 @@
     </div>
     <script>
         let ids = ["image1", "image2", "image3", "image4", "image5", "image6", "image7", "image8", "image9", "image10", "image11", "image12", "image13", "image14", "image15", "image16", "image17", "image18", "image19", "image20", "image21", "image22", "image23", "image24"];
-            var triesCount = 0
-            var animalLocation = 13
-            var id
-            var a
-            function check(index) {
-                for (let i = 0; i < ids.length; i++) {
-                    if (i == index) {
-                        id = ids[i]
+        var triesCount = 0
+        var animalLocation = 13
+        var id
+        var a
+        function check(index) {
+            for (let i = 0; i < ids.length; i++) {
+                if (i == index) {
+                    id = ids[i]
+                }
+            }
+            if (index == animalLocation) {
+                document.getElementById(id).src = "animal.jpg";
+            }
+            else {
+                document.getElementById(id).src = "hole.jpg";
+            }
+            triesCount = triesCount + 1;
+            document.getElementById("tries").innerHTML = "Count of tries is " + triesCount;
+            console.log(index)
+            aser = distance(index, animalLocation)
+            document.getElementById("distance").innerHTML = "Distance is " + aser
+        }
+        function distance(pos1, pos2) {
+
+            if (pos1 == pos2) {
+                return 0;
+            }
+            var k = [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15, 16, 17], [18, 19, 20, 21, 22, 23]];
+
+            var vx = 0, vy = 0;
+            var v1y = 0, v1y = 0;
+
+            for (var i = 0; i < k.length; i++) {
+                for (var j = 0; j < k[0].length; j++) {
+                    if (k[i][j] == pos1) {
+                        vx = i;
+                        vy = j;
+                    }
+
+                    if (k[i][j] == pos2) {
+                        v1x = i;
+                        v1y = j;
                     }
                 }
-                if (index == animalLocation) {
-                    document.getElementById(id).src = "animal.jpg";
-                }
-                else {
-                    document.getElementById(id).src = "hole.jpg";
-                }
-                triesCount = triesCount + 1;
-                document.getElementById("tries").innerHTML = "Count of tries is " + triesCount;
-                console.log(index)
-                aser = distance(index, animalLocation)
-                document.getElementById("distance").innerHTML = "Distance is " + aser
             }
-            function distance(pos1, pos2) {
 
-                if (pos1 == pos2) {
-                    return 0;
-                }
-                var k = [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 11], [12, 13, 14, 15, 16, 17], [18, 19, 20, 21, 22, 23]];
+            var row = Math.abs(vx - v1x);
+            var column = Math.abs(vy - v1y);
+            return row + column - 1;
 
-                var vx= 0, vy = 0;
-                var v1y= 0, v1y = 0;
+        }
 
-                for (var i = 0; i < k.length; i++) {
-                    for (var j = 0; j < k[0].length; j++) {
-                        if (k[i][j] == pos1) {
-                            vx = i;
-                            vy = j;
-                        }
-
-                        if (k[i][j] == pos2) {
-                            v1x = i;
-                            v1y= j;
-                        }
-                    }
-                }
-
-                var row = Math.abs(vx - v1x);
-                var column = Math.abs(vy - v1y);
-                return row + column - 1;
+        function newGame() {
+            triesCount = 0
+            animalLocation = Math.floor(Math.random() * 23 + 0)
+            document.getElementById("tries").innerHTML = "Number of tries is 0."
+            for (var i = 0; i < 24; i++) {
+                if (ids[i] == ids[animalLocation])
+                    document.getElementById(ids[i]).src = "animal.jpg"
 
             }
+        }
 
     </script>
-    
-    </body>
-    </html>
+
+</body>
+
+</html>
